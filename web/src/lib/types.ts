@@ -1,0 +1,10 @@
+export type Crop = 'wheat' | 'maize' | 'rice';
+export type Metric = 'production' | 'yield' | 'change';
+export type Country = { id: string; name: string; provider_name: string; m49: string; provider_area_code: string };
+export type Observation = { production?: number; area?: number; yield?: number; flags: Record<string, string> };
+export type Point = { date: string; value: number };
+export type CropData = { commodity: Crop; years: number[]; countries: Record<string, Record<string, Observation>>; prices: Point[] };
+export type Release = { provider_release_id: string; provider_name: string; published_at: string | null; publication_precision: string | null; first_seen_at: string; retrieved_at: string; source_url: string; download_url: string; raw_file_hash: string; license: string; license_url: string };
+export type Commodity = { name: string; production_basis: string; benchmark_name: string; benchmark_unit: string; benchmark_description: string | null; latest_year: number; latest_price_period: string; country_count: number; years: number[] };
+export type Manifest = { schema_version: number; vintage: string; generated_at: string; countries: Record<string, Country>; commodities: Record<Crop, Commodity>; releases: Record<string, Release>; flags: Record<string, string>; coverage_definition: string; world_share_definition: string; change_definition: string };
+export type Forecast = { schema_version: number; issued_at: string; data_vintage: string; data_cutoff: string; horizon: number; status: string; evaluation_basis: string; coverage: { included: string[]; missing: string[] }; forecasts: Record<string, { points: { date: string; point: number; lo: number; hi: number }[]; unit: string; status: string; interval_level: number; interval_status: string }> };
