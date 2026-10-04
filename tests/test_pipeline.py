@@ -1,8 +1,11 @@
+import json
+import os
 from pathlib import Path
 
 import polars as pl
 import pytest
 
+from agriculture_viz import pipeline
 from agriculture_viz.pipeline import country_for_m49, normalize_value
 
 
@@ -30,8 +33,6 @@ def test_regional_and_china_aggregate_excluded_from_country_crosswalk() -> None:
 
 
 def test_live_snapshot_has_consistent_units_and_unique_keys() -> None:
-    import json
-
     root = Path(__file__).resolve().parents[1]
     name = json.loads((root / "data/latest.json").read_text())["vintage"]
     frame = pl.read_parquet(root / "data/vintages" / name / "production.parquet")
@@ -62,3 +63,35 @@ def test_live_snapshot_has_consistent_units_and_unique_keys() -> None:
     # Provider series can differ through rounding. Check that unit conversion is of the right order.
     ratio = joined["yield"] / (joined["production"] / joined["area"])
     assert ratio.median() == pytest.approx(1, rel=0.02)
+
+
+def test_fresh_runner_preserves_first_seen_and_restores_raw_archive(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(pipeline, "ROOT", tmp_path)
+    monkeypatch.setattr(pipeline, "DATA", tmp_path / "data")
+    raw = tmp_path / "data" / "raw"
+    raw.mkdir(parents=True)
+    source = raw / "worldbank.xlsx"
+    source.write_bytes(b"unchanged provider release")
+    config = {
+        "name": "World Bank",
+        "source_url": "https://example.com/dataset",
+        "license": "Provider terms",
+    }
+    original = pipeline.record_release(
+        "worldbank", source, "https://example.com/data.xlsx", "2026-09-01", config
+    )
+    snapshot = tmp_path / "data" / "vintages" / "2026-09-01" / "metadata.json"
+    pipeline.write_json(snapshot, {"releases": {"worldbank": original}})
+    for artifact in raw.iterdir():
+        if artifact != source:
+            artifact.unlink()
+    later = source.stat().st_mtime + 86400
+    os.utime(source, (later, later))
+    restored = pipeline.record_release(
+        "worldbank", source, "https://example.com/data.xlsx", "2026-09-01", config
+    )
+    assert restored["first_seen_at"] == original["first_seen_at"]
+    assert restored["provider_release_id"] == original["provider_release_id"]
+    assert (tmp_path / restored["raw_path"]).read_bytes() == source.read_bytes()

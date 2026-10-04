@@ -119,12 +119,25 @@ def record_release(
     checksum = hashlib.sha256(path.read_bytes()).hexdigest()
     release_id = f"{provider}-{checksum[:16]}"
     meta_path = DATA / "raw" / f"{release_id}.json"
-    if meta_path.exists():
-        result = cast(dict[str, Any], json.loads(meta_path.read_text()))
-        if result["raw_file_hash"] != checksum:
-            raise ValueError("Release hash collision")
-        return result
     retained = DATA / "raw" / f"{release_id}{path.suffix}"
+    known_release = None
+    if meta_path.exists():
+        known_release = cast(dict[str, Any], json.loads(meta_path.read_text()))
+        if known_release["raw_file_hash"] != checksum:
+            raise ValueError("Release hash collision")
+    else:
+        # Fresh CI runners have the tracked vintages but no ignored raw cache.
+        # Reuse the earliest recorded retrieval for the same provider file.
+        for snapshot in sorted((DATA / "vintages").glob("*/metadata.json")):
+            previous = json.loads(snapshot.read_text()).get("releases", {}).get(provider)
+            if previous and previous.get("raw_file_hash") == checksum:
+                known_release = cast(dict[str, Any], previous)
+                break
+    if known_release is not None:
+        if not retained.exists():
+            shutil.copyfile(path, retained)
+        write_json(meta_path, known_release)
+        return known_release
     shutil.copyfile(path, retained)
     first_seen = datetime.fromtimestamp(path.stat().st_mtime, UTC).isoformat()
     result = {
