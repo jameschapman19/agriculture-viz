@@ -62,9 +62,9 @@ The build uses native Next.js output in `web/.next/`, matching `inflation-viz`. 
 
 Agriculture Radar follows the sister project's deployment design: public `agriculture-viz`, private `agriculture-forecast`, and Vercel's native GitHub integration for the visualization's `main` branch. See [deployment comparison and setup status](docs/DEPLOYMENT.md).
 
-The Vercel project is `agriculture-radar` in `jameschapman19s-projects`, the same team as Inflation Radar. Its build root and runtime are already aligned. GitHub repository creation and linking are pending; until linking is complete, releases use the authenticated CLI from this repository's root.
+The Vercel project is `agriculture-radar` in `jameschapman19s-projects`, the same team as Inflation Radar. It is connected to the public GitHub repository: pushes to `main` release production, and other branches receive previews.
 
-Create a public `jameschapman19/agriculture-viz` GitHub repository and push this project's `main` branch. Keep `jameschapman19/agriculture-forecast` private. Connect the visualization repository to the existing Vercel project with these settings:
+The repositories are [agriculture-viz](https://github.com/jameschapman19/agriculture-viz) (public) and [agriculture-forecast](https://github.com/jameschapman19/agriculture-forecast) (private). The existing Vercel project uses these settings:
 
 | Setting | Value |
 | --- | --- |
@@ -89,7 +89,7 @@ Project linking selects the owning Vercel team/project. The `.vercel` identity f
 
 ## Refreshing and forecasts
 
-The site reads a reproducible data snapshot. Once GitHub is connected, Vercel rebuilds it whenever `main` receives a commit and creates previews for other branches. The observation workflow runs daily at 08:00 UTC, matching `inflation-viz`, and can also be triggered manually. Schedules become active when the workflow is pushed to GitHub's default branch.
+The site reads a reproducible data snapshot. Vercel rebuilds it whenever `main` receives a commit and creates previews for other branches. The observation workflow runs daily at 08:00 UTC, matching `inflation-viz`, and can also be triggered manually. Both workflows are registered on GitHub's default branch.
 
 Forecasts use the private project's manual **Publish forecast** workflow, matching `inflation-forecast`. It stores full run details privately and opens an output-only PR against this repository. Merging that PR releases the forecast through Vercel. Configure `AGRICULTURE_VIZ_PUSH_TOKEN` in the private repository's Actions secrets with contents and pull-request write access to the visualization repository. No forecast schedule or Vercel deploy token is needed.
 
