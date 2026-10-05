@@ -4,6 +4,8 @@ The first pilot should cover one crop and one region with usable historical labe
 
 First ship the [public Crop Explorer pre-step](CROP_EXPLORER_PRESTEP.md): zoomable imagery with published annual crop classes and optional estimated field outlines. This can use existing public maps before a new classifier or yield model is ready. A representation-learning experiment is a separate, labeled extension; crop names need suitable labels and independent validation.
 
+The [computer vision reuse research](COMPUTER_VISION_REUSE.md) identifies existing crop encoders, field-instance models, public checkpoints and solar-mapping patterns. Begin with frozen Presto features and a small head; use U-TAE/PaPs as the crop/parcel benchmark and SamGeo/SAM 2.1 for optional geometry work. Compare with simple seasonal features and annual embeddings before taking on a larger GPU model.
+
 ## Two distinct capabilities
 
 | Capability | Inputs and labels | Output | Evaluation |

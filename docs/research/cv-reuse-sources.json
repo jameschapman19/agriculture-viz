@@ -1,0 +1,385 @@
+{
+  "schemaVersion": 1,
+  "observedOn": "2026-10-05",
+  "purpose": "Primary-source audit for docs/COMPUTER_VISION_REUSE.md; research provenance, not a production dependency lockfile.",
+  "verification": {
+    "scope": "official documentation and artifact metadata",
+    "checkpointFilesDownloaded": false,
+    "datasetArchivesDownloaded": false,
+    "inferenceExecuted": false,
+    "trainingExecuted": false,
+    "paidInfrastructureProvisioned": false,
+    "runtimeCompatibilityVerified": false
+  },
+  "repositories": [
+    {
+      "repository": "nasaharvest/presto",
+      "requestedRepository": "nasaharvest/presto",
+      "url": "https://github.com/nasaharvest/presto",
+      "commit": "11e207a668a34336ced1d8e492a1bd5849b96c4a",
+      "latestCommitDate": "2026-06-10T10:58:50Z",
+      "archived": false,
+      "role": "first_frozen_encoder",
+      "codeLicenseDeclared": "MIT",
+      "readmeEvidenceUrl": "https://github.com/nasaharvest/presto/blob/11e207a668a34336ced1d8e492a1bd5849b96c4a/README.md",
+      "licenseMetadataUrl": "https://api.github.com/repos/nasaharvest/presto/license?ref=11e207a668a34336ced1d8e492a1bd5849b96c4a"
+    },
+    {
+      "repository": "WorldCereal/worldcereal-classification",
+      "requestedRepository": "WorldCereal/worldcereal-classification",
+      "url": "https://github.com/WorldCereal/worldcereal-classification",
+      "commit": "83b279cfbb957e4039fc635efbb808430f1b1bb9",
+      "latestCommitDate": "2026-10-03T19:31:03Z",
+      "archived": false,
+      "role": "crop_pipeline_reference",
+      "codeLicenseDeclared": "MIT",
+      "readmeEvidenceUrl": "https://github.com/WorldCereal/worldcereal-classification/blob/83b279cfbb957e4039fc635efbb808430f1b1bb9/README.md",
+      "licenseMetadataUrl": "https://api.github.com/repos/WorldCereal/worldcereal-classification/license?ref=83b279cfbb957e4039fc635efbb808430f1b1bb9"
+    },
+    {
+      "repository": "WorldCereal/prometheo",
+      "requestedRepository": "WorldCereal/prometheo",
+      "url": "https://github.com/WorldCereal/prometheo",
+      "commit": "72cf6d75826dd57db6b9463ea45e9e93e318d4c9",
+      "latestCommitDate": "2026-09-29T09:39:10Z",
+      "archived": false,
+      "role": "typed_input_adapter",
+      "codeLicenseDeclared": "MIT",
+      "readmeEvidenceUrl": "https://github.com/WorldCereal/prometheo/blob/72cf6d75826dd57db6b9463ea45e9e93e318d4c9/README.md",
+      "licenseMetadataUrl": "https://api.github.com/repos/WorldCereal/prometheo/license?ref=72cf6d75826dd57db6b9463ea45e9e93e318d4c9",
+      "dependencyTag": "v0.1.6",
+      "tagResolvesToInspectedCommit": true
+    },
+    {
+      "repository": "VSainteuf/utae-paps",
+      "requestedRepository": "VSainteuf/utae-paps",
+      "url": "https://github.com/VSainteuf/utae-paps",
+      "commit": "987874e27a98bb399277f2d55eb010744d26f881",
+      "latestCommitDate": "2024-08-20T13:48:27Z",
+      "archived": false,
+      "role": "crop_and_field_instance_benchmark",
+      "codeLicenseDeclared": "MIT",
+      "readmeEvidenceUrl": "https://github.com/VSainteuf/utae-paps/blob/987874e27a98bb399277f2d55eb010744d26f881/README.md",
+      "licenseMetadataUrl": "https://api.github.com/repos/VSainteuf/utae-paps/license?ref=987874e27a98bb399277f2d55eb010744d26f881"
+    },
+    {
+      "repository": "VSainteuf/pastis-benchmark",
+      "requestedRepository": "VSainteuf/pastis-benchmark",
+      "url": "https://github.com/VSainteuf/pastis-benchmark",
+      "commit": "43a0eceb9f40a6e6b0863b1a591407877812efcc",
+      "latestCommitDate": "2024-08-20T14:00:01Z",
+      "archived": false,
+      "role": "labelled_benchmark_loader",
+      "codeLicenseDeclared": "MIT",
+      "readmeEvidenceUrl": "https://github.com/VSainteuf/pastis-benchmark/blob/43a0eceb9f40a6e6b0863b1a591407877812efcc/README.md",
+      "licenseMetadataUrl": "https://api.github.com/repos/VSainteuf/pastis-benchmark/license?ref=43a0eceb9f40a6e6b0863b1a591407877812efcc"
+    },
+    {
+      "repository": "NASA-IMPACT/Prithvi-EO-2.0",
+      "requestedRepository": "NASA-IMPACT/Prithvi-EO-2.0",
+      "url": "https://github.com/NASA-IMPACT/Prithvi-EO-2.0",
+      "commit": "758311280f935d4775c05b26d792768bf1fda841",
+      "latestCommitDate": "2025-02-13T11:07:39Z",
+      "archived": false,
+      "role": "later_foundation_model_comparison",
+      "codeLicenseDeclared": "MIT",
+      "readmeEvidenceUrl": "https://github.com/NASA-IMPACT/Prithvi-EO-2.0/blob/758311280f935d4775c05b26d792768bf1fda841/README.md",
+      "licenseMetadataUrl": "https://api.github.com/repos/NASA-IMPACT/Prithvi-EO-2.0/license?ref=758311280f935d4775c05b26d792768bf1fda841"
+    },
+    {
+      "repository": "torchgeo/terratorch",
+      "requestedRepository": "IBM/terratorch",
+      "url": "https://github.com/torchgeo/terratorch",
+      "commit": "7bf8eaba13c4a8a6a0a33e63f8d866d478a3bf31",
+      "latestCommitDate": "2026-09-30T12:33:13Z",
+      "archived": false,
+      "role": "later_training_harness",
+      "codeLicenseDeclared": "Apache-2.0",
+      "readmeEvidenceUrl": "https://github.com/torchgeo/terratorch/blob/7bf8eaba13c4a8a6a0a33e63f8d866d478a3bf31/README.md",
+      "licenseMetadataUrl": "https://api.github.com/repos/torchgeo/terratorch/license?ref=7bf8eaba13c4a8a6a0a33e63f8d866d478a3bf31"
+    },
+    {
+      "repository": "opengeos/segment-geospatial",
+      "requestedRepository": "opengeos/segment-geospatial",
+      "url": "https://github.com/opengeos/segment-geospatial",
+      "commit": "0d7a4ac1b3f6afe1970ee0ae5c11ba1da6bbb49e",
+      "latestCommitDate": "2026-09-20T14:51:27Z",
+      "archived": false,
+      "role": "optional_geometry_adapter",
+      "codeLicenseDeclared": "MIT",
+      "readmeEvidenceUrl": "https://github.com/opengeos/segment-geospatial/blob/0d7a4ac1b3f6afe1970ee0ae5c11ba1da6bbb49e/README.md",
+      "licenseMetadataUrl": "https://api.github.com/repos/opengeos/segment-geospatial/license?ref=0d7a4ac1b3f6afe1970ee0ae5c11ba1da6bbb49e"
+    },
+    {
+      "repository": "facebookresearch/sam2",
+      "requestedRepository": "facebookresearch/sam2",
+      "url": "https://github.com/facebookresearch/sam2",
+      "commit": "2b90b9f5ceec907a1c18123530e92e794ad901a4",
+      "latestCommitDate": "2024-12-16T00:47:17Z",
+      "archived": false,
+      "role": "optional_geometry_checkpoint",
+      "codeLicenseDeclared": "Apache-2.0",
+      "readmeEvidenceUrl": "https://github.com/facebookresearch/sam2/blob/2b90b9f5ceec907a1c18123530e92e794ad901a4/README.md",
+      "licenseMetadataUrl": "https://api.github.com/repos/facebookresearch/sam2/license?ref=2b90b9f5ceec907a1c18123530e92e794ad901a4"
+    },
+    {
+      "repository": "torchgeo/torchgeo",
+      "requestedRepository": "microsoft/torchgeo",
+      "url": "https://github.com/torchgeo/torchgeo",
+      "commit": "e941efe20280facf5a0a18c950b2c8aec14380fe",
+      "latestCommitDate": "2026-10-04T17:41:42Z",
+      "archived": false,
+      "role": "geospatial_sampling_and_input_glue",
+      "codeLicenseDeclared": "MIT",
+      "readmeEvidenceUrl": "https://github.com/torchgeo/torchgeo/blob/e941efe20280facf5a0a18c950b2c8aec14380fe/README.md",
+      "licenseMetadataUrl": "https://api.github.com/repos/torchgeo/torchgeo/license?ref=e941efe20280facf5a0a18c950b2c8aec14380fe"
+    },
+    {
+      "repository": "wangzhecheng/DeepSolar",
+      "requestedRepository": "wangzhecheng/DeepSolar",
+      "url": "https://github.com/wangzhecheng/DeepSolar",
+      "commit": "39643e97d628c9317aca398d28e37ed25472a7f6",
+      "latestCommitDate": "2019-03-26T09:03:56Z",
+      "archived": false,
+      "role": "solar_pipeline_reference",
+      "codeLicenseDeclared": "MIT",
+      "readmeEvidenceUrl": "https://github.com/wangzhecheng/DeepSolar/blob/39643e97d628c9317aca398d28e37ed25472a7f6/README.md",
+      "licenseMetadataUrl": "https://api.github.com/repos/wangzhecheng/DeepSolar/license?ref=39643e97d628c9317aca398d28e37ed25472a7f6"
+    },
+    {
+      "repository": "rajanieprabha/DeepSolar-3M",
+      "requestedRepository": "rajanieprabha/DeepSolar-3M",
+      "url": "https://github.com/rajanieprabha/DeepSolar-3M",
+      "commit": "7b6c17f78247011249f85e8ff2a4400d4d12ac9d",
+      "latestCommitDate": "2026-03-18T00:16:03Z",
+      "archived": false,
+      "role": "solar_pipeline_reference",
+      "codeLicenseDeclared": "Apache-2.0",
+      "readmeEvidenceUrl": "https://github.com/rajanieprabha/DeepSolar-3M/blob/7b6c17f78247011249f85e8ff2a4400d4d12ac9d/README.md",
+      "licenseMetadataUrl": "https://api.github.com/repos/rajanieprabha/DeepSolar-3M/license?ref=7b6c17f78247011249f85e8ff2a4400d4d12ac9d"
+    },
+    {
+      "repository": "Lkruitwagen/solar-pv-global-inventory",
+      "requestedRepository": "Lkruitwagen/solar-pv-global-inventory",
+      "url": "https://github.com/Lkruitwagen/solar-pv-global-inventory",
+      "commit": "9940a454de88a39ca92dbabf07e98d8623f0ec8b",
+      "latestCommitDate": "2021-11-25T08:55:36Z",
+      "archived": false,
+      "role": "solar_pipeline_reference",
+      "codeLicenseDeclared": "MIT",
+      "readmeEvidenceUrl": "https://github.com/Lkruitwagen/solar-pv-global-inventory/blob/9940a454de88a39ca92dbabf07e98d8623f0ec8b/README.md",
+      "licenseMetadataUrl": "https://api.github.com/repos/Lkruitwagen/solar-pv-global-inventory/license?ref=9940a454de88a39ca92dbabf07e98d8623f0ec8b"
+    },
+    {
+      "repository": "kdmayer/PV_Pipeline",
+      "requestedRepository": "kdmayer/PV_Pipeline",
+      "url": "https://github.com/kdmayer/PV_Pipeline",
+      "commit": "8ff5c0f14a5182af4a9add05f8b0400c7d0c8617",
+      "latestCommitDate": "2022-03-10T05:16:37Z",
+      "archived": false,
+      "role": "solar_pipeline_and_resolution_reference",
+      "codeLicenseDeclared": "MIT",
+      "readmeEvidenceUrl": "https://github.com/kdmayer/PV_Pipeline/blob/8ff5c0f14a5182af4a9add05f8b0400c7d0c8617/README.md",
+      "licenseMetadataUrl": "https://api.github.com/repos/kdmayer/PV_Pipeline/license?ref=8ff5c0f14a5182af4a9add05f8b0400c7d0c8617"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "worldcereal-dependencies",
+      "repository": "WorldCereal/worldcereal-classification",
+      "path": "pyproject.toml",
+      "commit": "83b279cfbb957e4039fc635efbb808430f1b1bb9",
+      "gitBlobSha": "8deac85c77dab42cbbd23dbfb8b1d5a05ebae668",
+      "bytes": 2329,
+      "url": "https://github.com/WorldCereal/worldcereal-classification/blob/83b279cfbb957e4039fc635efbb808430f1b1bb9/pyproject.toml"
+    },
+    {
+      "name": "worldcereal-models",
+      "repository": "WorldCereal/worldcereal-classification",
+      "path": "src/worldcereal/parameters.py",
+      "commit": "83b279cfbb957e4039fc635efbb808430f1b1bb9",
+      "gitBlobSha": "e8986749ca34bb04eb8975a4df91654f8ae7bc2a",
+      "bytes": 4462,
+      "url": "https://github.com/WorldCereal/worldcereal-classification/blob/83b279cfbb957e4039fc635efbb808430f1b1bb9/src/worldcereal/parameters.py"
+    },
+    {
+      "name": "presto-default-weights",
+      "repository": "nasaharvest/presto",
+      "path": "data/default_model.pt",
+      "commit": "11e207a668a34336ced1d8e492a1bd5849b96c4a",
+      "gitBlobSha": "1c0ab2199246ca250c1dbb3de27e8c3da43d9b8a",
+      "bytes": 3321716,
+      "url": "https://github.com/nasaharvest/presto/blob/11e207a668a34336ced1d8e492a1bd5849b96c4a/data/default_model.pt"
+    },
+    {
+      "name": "prithvi-crop-config",
+      "repository": "NASA-IMPACT/Prithvi-EO-2.0",
+      "path": "configs/multicrop.yaml",
+      "commit": "758311280f935d4775c05b26d792768bf1fda841",
+      "gitBlobSha": "bc757afdfba0dfd88fcc13d4573ace76209cf867",
+      "bytes": 3201,
+      "url": "https://github.com/NASA-IMPACT/Prithvi-EO-2.0/blob/758311280f935d4775c05b26d792768bf1fda841/configs/multicrop.yaml"
+    },
+    {
+      "kind": "huggingface_models",
+      "id": "ibm-nasa-geospatial/Prithvi-EO-2.0-300M",
+      "revision": "9eb1b1102806593963daa333bcc491b1c6f8562f",
+      "gated": false,
+      "licenseDeclared": "apache-2.0",
+      "url": "https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-2.0-300M",
+      "modelOrDatasetCardUrl": "https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-2.0-300M/blob/9eb1b1102806593963daa333bcc491b1c6f8562f/README.md",
+      "inspectedFileNames": [
+        "Prithvi_EO_V2_300M.pt",
+        "README.md"
+      ],
+      "downloaded": false,
+      "inferenceExecuted": false
+    },
+    {
+      "kind": "huggingface_models",
+      "id": "ibm-nasa-geospatial/Prithvi-EO-1.0-100M-multi-temporal-crop-classification",
+      "revision": "b53a88b8da673800b67c34a98a527b77076e7035",
+      "gated": false,
+      "licenseDeclared": "apache-2.0",
+      "url": "https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-1.0-100M-multi-temporal-crop-classification",
+      "modelOrDatasetCardUrl": "https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-1.0-100M-multi-temporal-crop-classification/blob/b53a88b8da673800b67c34a98a527b77076e7035/README.md",
+      "inspectedFileNames": [
+        ".gitattributes",
+        "README.md",
+        "config.yaml",
+        "multi_temporal_crop_classification.png",
+        "multi_temporal_crop_classification_Prithvi_100M.pth",
+        "multi_temporal_crop_classification_Prithvi_100M.py"
+      ],
+      "downloaded": false,
+      "inferenceExecuted": false
+    },
+    {
+      "kind": "huggingface_datasets",
+      "id": "ibm-nasa-geospatial/multi-temporal-crop-classification",
+      "revision": "f285bb27c8f623a0fb6a44a6fd953c3ad34007d6",
+      "gated": false,
+      "licenseDeclared": "cc-by-4.0",
+      "url": "https://huggingface.co/datasets/ibm-nasa-geospatial/multi-temporal-crop-classification",
+      "modelOrDatasetCardUrl": "https://huggingface.co/datasets/ibm-nasa-geospatial/multi-temporal-crop-classification/blob/f285bb27c8f623a0fb6a44a6fd953c3ad34007d6/README.md",
+      "inspectedFileNames": [
+        "README.md"
+      ],
+      "downloaded": false,
+      "inferenceExecuted": false
+    },
+    {
+      "kind": "huggingface_models",
+      "id": "allenai/OlmoEarth-v1_2-Base",
+      "revision": "2e99a734a30e9aeb993aaa39946c6dcf554739e0",
+      "gated": false,
+      "licenseDeclared": "other",
+      "url": "https://huggingface.co/allenai/OlmoEarth-v1_2-Base",
+      "modelOrDatasetCardUrl": "https://huggingface.co/allenai/OlmoEarth-v1_2-Base/blob/2e99a734a30e9aeb993aaa39946c6dcf554739e0/README.md",
+      "inspectedFileNames": [
+        "README.md"
+      ],
+      "downloaded": false,
+      "inferenceExecuted": false,
+      "customLicenseUrl": "https://huggingface.co/allenai/OlmoEarth-v1_2-Base/blob/2e99a734a30e9aeb993aaa39946c6dcf554739e0/LICENSE.txt"
+    },
+    {
+      "kind": "zenodo_record",
+      "record": "5012942",
+      "title": "PASTIS - Panoptic Segmentation of Satellite image TIme Series",
+      "url": "https://zenodo.org/records/5012942",
+      "metadataUrl": "https://zenodo.org/api/records/5012942",
+      "licenseDeclared": "cc-by-4.0",
+      "files": [
+        {
+          "key": "PASTIS.zip",
+          "bytes": 28760245504,
+          "checksum": "md5:cfc441bf18137ff0bbf4fad58828fb98"
+        }
+      ],
+      "downloaded": false,
+      "inferenceExecuted": false
+    },
+    {
+      "kind": "zenodo_record",
+      "record": "5172293",
+      "title": "U-TAE pre-trained weights on PASTIS for Semantic segmentation",
+      "url": "https://zenodo.org/records/5172293",
+      "metadataUrl": "https://zenodo.org/api/records/5172293",
+      "licenseDeclared": "cc-by-4.0",
+      "files": [
+        {
+          "key": "UTAE_SemanticSeg_weights.zip",
+          "bytes": 57766390,
+          "checksum": "md5:91bf47d219927b2a686ec662132f754f"
+        }
+      ],
+      "downloaded": false,
+      "inferenceExecuted": false
+    },
+    {
+      "kind": "zenodo_record",
+      "record": "5172301",
+      "title": "U-TAE + PaPs pre-trained weights on PASTIS for Panoptic segmentation",
+      "url": "https://zenodo.org/records/5172301",
+      "metadataUrl": "https://zenodo.org/api/records/5172301",
+      "licenseDeclared": "cc-by-4.0",
+      "files": [
+        {
+          "key": "UTAE+PAPs_PanopticSeg_weights.zip",
+          "bytes": 61999770,
+          "checksum": "md5:7a2910a2a48e1f016b7158a433b25ca1"
+        }
+      ],
+      "downloaded": false,
+      "inferenceExecuted": false
+    },
+    {
+      "name": "sam-2.1-hiera-small",
+      "kind": "documented_checkpoint_url",
+      "url": "https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_small.pt",
+      "evidenceUrl": "https://github.com/facebookresearch/sam2/blob/2b90b9f5ceec907a1c18123530e92e794ad901a4/README.md",
+      "licenseDeclared": "Apache-2.0",
+      "downloaded": false,
+      "inferenceExecuted": false,
+      "checksum": null
+    }
+  ],
+  "additionalSources": [
+    {
+      "id": "alphaearth-annual",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+      "role": "completed_year_representation_comparator",
+      "licenseDeclared": "CC-BY-4.0",
+      "notes": "10 m annual 64-dimensional embeddings; retain catalog-required Google/Google DeepMind attribution. CDL training-target overlap and completed-year availability constrain evaluation."
+    },
+    {
+      "id": "worldcereal-reference-data",
+      "url": "https://worldcereal.github.io/worldcereal-documentation/rdm/explore.html",
+      "role": "candidate_independent_labels",
+      "licenseDeclared": "per-dataset; not audited for the pilot",
+      "notes": "Public records are discoverable without authentication. Coverage, label origin, terms and pretrained-model overlap still require a dataset-level audit."
+    },
+    {
+      "id": "usda-cdl",
+      "url": "https://data.nass.usda.gov/Research_and_Science/Cropland/sarsfaqs2.php",
+      "role": "public_crop_layer_and_weak_labels",
+      "licenseDeclared": "public domain",
+      "notes": "Satellite-derived classification; agreement is not independent ground-truth accuracy."
+    },
+    {
+      "id": "usda-crop-sequence-boundaries",
+      "url": "https://www.nass.usda.gov/Research_and_Science/Crop-Sequence-Boundaries/index.php",
+      "role": "estimated_geometry_source",
+      "notes": "Estimated crop-field boundaries, not legal parcels or independent boundary truth; retain the source multi-year window."
+    }
+  ],
+  "openChecks": [
+    "Run pinned checkpoint with its matching loader and verify band normalization, time order, masks and finite output.",
+    "Confirm separate terms for original Presto weights and WorldCereal seasonal bundle before redistribution; do not assume bundles are interchangeable.",
+    "Audit pilot-region independent labels, licence, vintage, source methodology and overlap with encoder/head training.",
+    "On download, record SHA-256 of actual checkpoint bytes; provider MD5 and Git blob SHA values below are not SHA-256.",
+    "Validate public source/tile rights, hosting costs and local crop/geometry accuracy before publication.",
+    "Audit custom OlmoEarth Artifact License and adapter input grid before adopting this watchlist model."
+  ]
+}
