@@ -44,4 +44,4 @@ Both Vercel projects use native Next.js deployment from public visualization rep
 
 ## Satellite extension
 
-See [SATELLITE_ROADMAP.md](SATELLITE_ROADMAP.md) and the researched [satellite phase plan](SATELLITE_PHASE_PLAN.md). Satellite processing will be an upstream feature/label capability, not a browser or Vercel build task. The current app publishes benchmark-price forecasts only.
+See [SATELLITE_ROADMAP.md](SATELLITE_ROADMAP.md), the [public Crop Explorer pre-step](CROP_EXPLORER_PRESTEP.md), and the researched [satellite phase plan](SATELLITE_PHASE_PLAN.md). The explorer first publishes imagery, annual source crop classifications and optional estimated field outlines through a zoomable tile view. Public layer metadata remains separate from forecast envelopes; classifier training and later yield feature processing stay private and feed the shared Nixtla adapters. Heavy satellite processing runs before publication. The current app publishes benchmark-price forecasts only; these satellite views remain planned.

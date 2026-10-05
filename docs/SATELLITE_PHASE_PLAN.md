@@ -2,9 +2,15 @@
 
 Status: planning proposal, researched on 5 October 2026. No satellite model, paid infrastructure or yield forecast is being launched by this document. This develops the [satellite roadmap](SATELLITE_ROADMAP.md) and follows the [shared Radar architecture](SHARED_ARCHITECTURE.md).
 
-## Recommended pilot and first product
+## Public exploration comes first
 
-Start with **maize for grain in Illinois, at county level**, conditional on the data audit below. The first product is an experimental, within-season forecast of the county's eventual annual yield in tonnes per hectare, with a dated issue, prediction bands and imagery coverage. Use June, July, August and September issue stages; each stage predicts the same harvest-season outcome. The satellite layer should also explain observation age and vegetation conditions without implying that vegetation index equals yield.
+Build the [public Crop Explorer pre-step](CROP_EXPLORER_PRESTEP.md) before releasing yield forecasts: zoomable satellite imagery, annual public crop classifications and optional estimated field outlines, initially around Champaign County, Illinois. Users can select a location, inspect mapped crops and sources, and explore additional audited years. A bounded pretrained-representation experiment can follow alongside it. This public observation layer does not depend on yield labels, a new classifier or the seasonal forecast contract.
+
+The sequence is public crop exploration, optional classification research, then the issuance-aware yield pilot below. Keep the public map's source years explicit; historical classifications are useful to explore immediately, while within-season forecasts need the stricter availability and evaluation gates. The yield data audit may run alongside the explorer.
+
+## Recommended yield pilot
+
+Start the **yield pilot** with maize for grain in Illinois, at county level, conditional on the data audit below. After the public explorer, the forecast product is an experimental, within-season prediction of the county's eventual annual yield in tonnes per hectare, with a dated issue, prediction bands and imagery coverage. Use June, July, August and September issue stages; each stage predicts the same harvest-season outcome. The satellite layer should also explain observation age and vegetation conditions without implying that vegetation index equals yield.
 
 USDA publishes Illinois county estimates of corn planted area, harvested area, yield and production; its [2024 county release](https://www.nass.usda.gov/Statistics_by_State/Illinois/Publications/County_Estimates/2025/20250506-IL-Corn-County-Estimates-2024.pdf) is a verified example. [Quick Stats](https://data.nass.usda.gov/Quick_Stats/) is the proposed machine-readable label source. This gives a clearer county target than inferring local yields from national totals. Complete history, suppression and the latest completed season still require an audit.
 
@@ -12,7 +18,7 @@ Keep **England wheat** as the next adapter. Defra publishes [country and English
 
 A new crop classifier is a separate capability. Begin yield research with an existing, release-safe crop mask and compare it with a general cropland mask. Research current-season maize probabilities in a later workstream. A classifier trained and scored against the same satellite-derived map measures agreement with that map; it does not establish independent crop accuracy.
 
-## Data audit: the first implementation ticket
+## Yield data audit: the first forecast implementation ticket
 
 Timebox this to three to five working days. Download small samples and metadata before a full imagery backfill. Produce a private `pilot-audit.json`, a coverage table, a bounded extraction benchmark and a go/no-go decision.
 
@@ -119,7 +125,8 @@ Allow roughly **8–10 engineering weeks** for the yield pilot, assuming one pri
 
 | Ticket | Phase and effort | Concrete deliverable / dependency |
 | --- | --- | --- |
-| SAT-01 | Data audit, week 1 | Private sample manifests, county-season coverage, release timing audit, unit/definition crosswalk, extraction benchmark, independent-label options and go/no-go. Start here. |
+| CROP-01–04 | Public explorer pre-step, roughly 1–2 weeks after access/hosting verification | Audited source window, versioned crop/imagery tiles, branded zoomable map and public release. See the separate [pre-step plan](CROP_EXPLORER_PRESTEP.md); this precedes yield publication and can overlap the yield audit. |
+| SAT-01 | Yield data audit, week 1 of the yield effort | Private sample manifests, county-season coverage, release timing audit, unit/definition crosswalk, extraction benchmark, independent-label options and go/no-go. |
 | SAT-02 | Feature extraction, weeks 2–3 | Containerized bounded backfill, cloud/reflectance checks, immutable Parquet vintages, crop-mask comparison and current acquisition collector. Requires SAT-01. |
 | SAT-03 | Shared annual engine, weeks 3–4 | Annual eligibility and release-safe label adapter, MLForecast runner, frozen stage datasets, monthly regression tests and coordinated private package release. Requires audited target definitions. |
 | SAT-04 | Yield shadow evaluation, weeks 5–6 | Disjoint folds, baseline comparisons, satellite ablation, calibrated intervals, private evaluation report and release recommendation. Requires SAT-02/03. |
@@ -130,4 +137,4 @@ Allow roughly **8–10 engineering weeks** for the yield pilot, assuming one pri
 
 Given the October 2026 planning date, the completed-season backfill is retrospective. Do not present an October run as an early-2026 crop forecast. The first proposed prospective Illinois issues are **June–September 2027**, subject to data releases and the gates above. Archive inputs and outputs at issuance; score them only when the corresponding county outcomes become available. A technical preview can be ready sooner, clearly labeled with its research basis.
 
-The immediate next action is SAT-01, not a global imagery download or frontend yield overlay. Its audit should settle the eligible county list, exact completed seasons, independent classification labels, actual source access, compute location and measured budget before SAT-02 starts.
+The immediate next action is CROP-01: a bounded public crop-map/imagery window and delivery audit. SAT-01 can run alongside it and should settle the eligible county list, exact completed seasons, independent classification labels, actual source access, compute location and measured budget before SAT-02 starts. The public explorer can release earlier than the first prospective yield issue.

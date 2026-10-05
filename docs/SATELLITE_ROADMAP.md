@@ -2,6 +2,8 @@
 
 The first pilot should cover one crop and one region with usable historical labels. The researched [satellite phase plan](SATELLITE_PHASE_PLAN.md) proposes Illinois maize at county level, subject to a data audit, with England wheat as a follow-on adapter. Expand after spatial and season-held-out evaluation.
 
+First ship the [public Crop Explorer pre-step](CROP_EXPLORER_PRESTEP.md): zoomable imagery with published annual crop classes and optional estimated field outlines. This can use existing public maps before a new classifier or yield model is ready. A representation-learning experiment is a separate, labeled extension; crop names need suitable labels and independent validation.
+
 ## Two distinct capabilities
 
 | Capability | Inputs and labels | Output | Evaluation |
