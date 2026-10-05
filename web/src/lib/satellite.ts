@@ -35,3 +35,18 @@ export function d3Winding(geometry: Geometry): Geometry {
   if (geometry.type === 'MultiPolygon') return { ...geometry, coordinates: geometry.coordinates.map(fix) };
   return geometry;
 }
+
+/** Min, mean and max NDVI across earlier seasons for each window of the year. */
+export function envelope(seasons: Map<number, SatelliteObservation[]>, before: number) {
+  const byKey = new Map<string, SatelliteObservation[]>();
+  for (const [year, rows] of seasons) if (year < before) for (const o of rows) byKey.set(o.windowStart.slice(5), [...(byKey.get(o.windowStart.slice(5)) ?? []), o]);
+  return [...byKey.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([key, rows]) => ({ key, sample: rows[0].windowStart, lo: Math.min(...rows.map(o => o.ndvi)), hi: Math.max(...rows.map(o => o.ndvi)), mean: rows.reduce((t, o) => t + o.ndvi, 0) / rows.length, n: rows.length }));
+}
+/** Regions ranked by NDVI anomaly in one window; regions without a clear scene or baseline are left out. */
+export function anomalies(data: SatelliteExport, season: number, key: string) {
+  return data.regions.flatMap(r => {
+    const o = data.observations.find(x => x.region === r.id && x.windowStart === `${season}-${key}`);
+    const base = baseline(data, r.id, key, season);
+    return o && base != null ? [{ id: r.id, name: r.name, anomaly: o.ndvi - base, ndvi: o.ndvi }] : [];
+  }).sort((a, b) => b.anomaly - a.anomaly);
+}
