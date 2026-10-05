@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Pause, Play } from 'lucide-react';
 import Link from 'next/link';
 import { ChevronDown, Database, Satellite } from 'lucide-react';
+import { headlines as makeHeadlines } from '@/lib/headlines';
 import { anomalies, bySeason, dayOfYear, envelope, segments, windowKeys } from '@/lib/satellite';
 import SatelliteMap, { type Mode } from './SatelliteMap';
 import type { Geography } from './WorldMap';
@@ -48,6 +49,7 @@ export default function SatelliteView({ scope }: { scope: 'regional' | 'global' 
   const current = years.at(-1)!;
   const normal = years.length > 4 ? envelope(seasons, current) : null;
   const ranked = world ? anomalies(data, mapSeason, keys[step]) : [];
+  const claims = world ? makeHeadlines(data) : [];
   const all = data.observations.filter(o => o.region === region);
   const start = Math.min(...all.map(o => dayOfYear(o.windowStart))), end = Math.max(...all.map(o => dayOfYear(o.windowStart))) + data.windowDays;
   const x = (day: number) => LEFT + (day - start) / (end - start) * (WIDTH - LEFT - RIGHT);
@@ -63,6 +65,11 @@ export default function SatelliteView({ scope }: { scope: 'regional' | 'global' 
   return <>{header}<main className="dashboard satellite">
     <div className="explorer-heading"><div><span className="eyebrow">Satellite observations · experimental</span><h1>{world ? 'Vegetation worldwide' : 'Vegetation through the season'}</h1><div className="crop-tabs sat-scope" aria-label="Scope"><Link href="/satellite/" className={world ? 'crop-tab' : 'crop-tab selected'}>Regional pilot</Link><Link href="/satellite/global/" className={world ? 'crop-tab selected' : 'crop-tab'}>Global</Link></div></div>
       <div className="select-wrap sat-select"><select aria-label={noun} value={region} onChange={e => { setRegion(e.target.value); setHover(null); }}>{[...data.regions].sort((a, b) => a.name.localeCompare(b.name)).map(r => <option key={r.id} value={r.id}>{r.name}</option>)}</select><ChevronDown size={14}/></div></div>
+    {claims.length > 0 && <section className="map-card sat-card" aria-label="Headlines">
+      <div className="section-heading"><div><span className="eyebrow">Latest window · records only</span><h2>What stands out</h2></div></div>
+      <ul className="sat-headlines">{claims.slice(0, 5).map(h => <li key={h.id}><Link href={`/satellite/insight/${h.id}/`}>{h.text}</Link><span>{h.anomaly > 0 ? '+' : ''}{number(h.anomaly, 2)} NDVI vs normal</span></li>)}</ul>
+      <div className="coverage-note"><span>A headline appears only when a country beats every earlier season for the same window by a clear margin, with enough clear observations. It describes cropland vegetation, not yield.</span></div>
+    </section>}
     {hasMap && <section className="map-card sat-card" aria-label={`${world ? 'Global' : 'Regional'} NDVI map`}>
       <div className="section-heading"><div><span className="eyebrow">{mapSeason} · window starting {releaseDate(`${mapSeason}-${keys[step]}`)}</span><h2>{mode === 'ndvi' ? `Vegetation by ${noun}` : 'Where vegetation is ahead of or behind normal'}</h2></div></div>
       <div className="sat-controls">
