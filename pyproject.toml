@@ -3,7 +3,7 @@ name = "agriculture-viz"
 version = "0.1.0"
 description = "Source-transparent crop production and benchmark price data"
 requires-python = ">=3.12"
-dependencies = ["polars>=1.30,<2", "openpyxl>=3.1,<4", "pycountry>=24.6", "pyyaml>=6,<7"]
+dependencies = ["radar-contracts==0.1.0", "polars>=1.30,<2", "openpyxl>=3.1,<4", "pycountry>=24.6", "pyyaml>=6,<7"]
 
 [dependency-groups]
 dev = ["pytest>=8,<9", "ruff>=0.12", "mypy>=1.13", "types-PyYAML>=6"]
@@ -30,3 +30,6 @@ files = ["src", "tests"]
 [[tool.mypy.overrides]]
 module = ["pycountry.*", "openpyxl.*"]
 ignore_missing_imports = true
+
+[tool.uv.sources]
+radar-contracts = { path = "vendor/radar_contracts-0.1.0-py3-none-any.whl" }

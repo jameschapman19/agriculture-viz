@@ -21,6 +21,8 @@ import pycountry
 import yaml
 from openpyxl import load_workbook
 
+from agriculture_viz.forecast import public_forecast
+
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data"
 PUBLIC = ROOT / "web" / "public" / "data"
@@ -385,7 +387,7 @@ def export(vintage: Path) -> dict[str, Any]:
     shutil.copyfile(vintage / "geography.geojson", PUBLIC / "geography.geojson")
     forecast_path = DATA / "forecast" / "latest.json"
     if forecast_path.exists():
-        shutil.copyfile(forecast_path, PUBLIC / "forecast.json")
+        write_json(PUBLIC / "forecast.json", public_forecast(json.loads(forecast_path.read_text())))
     return manifest
 
 

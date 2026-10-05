@@ -113,3 +113,7 @@ Bilateral trade, import dependence, USDA crop-year supply estimates, crop-area-w
 ## Licences
 
 Code: MIT, see `LICENSE`. Data rights remain with the providers and are recorded per release; consult the linked FAO and World Bank terms and commodity-specific third-party attribution. Natural Earth boundaries are public domain. This code licence does not relicense provider data.
+
+## Shared Radar foundations
+
+The sister projects share pinned `radar-contracts` releases and brand assets; both private forecast projects use the same Nixtla `radar-forecast` package. Domain adapters preserve their own targets, transforms and hierarchy rules. See the [shared architecture](https://github.com/jameschapman19/agriculture-viz/blob/main/docs/SHARED_ARCHITECTURE.md) and [satellite extension roadmap](https://github.com/jameschapman19/agriculture-viz/blob/main/docs/SATELLITE_ROADMAP.md).

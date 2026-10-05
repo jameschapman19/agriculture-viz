@@ -3,7 +3,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { number, period } from '@/lib/data';
 import type { Point } from '@/lib/types';
 type FuturePoint = { date: string; point: number; lo: number; hi: number };
-export default function Chart({ points, unit, color = '#e7b45e', annual = false, future = [], label, height = 190 }: { points: Point[]; unit: string; color?: string; annual?: boolean; future?: FuturePoint[]; label: string; height?: number }) {
+export default function Chart({ points, unit, color = 'var(--amber)', annual = false, future = [], label, height = 190 }: { points: Point[]; unit: string; color?: string; annual?: boolean; future?: FuturePoint[]; label: string; height?: number }) {
   const id = useId().replaceAll(':', '');
   const [hover, setHover] = useState<number | null>(null);
   const ref = useRef<HTMLDivElement>(null);
@@ -39,9 +39,9 @@ export default function Chart({ points, unit, color = '#e7b45e', annual = false,
       setHover(nearest);
     }}>
       <defs><linearGradient id={id} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={color} stopOpacity=".16"/><stop offset="100%" stopColor={color} stopOpacity="0"/></linearGradient></defs>
-      {[0, 1, 2, 3].map(i => { const value = low + (high - low) * i / 3; return <g key={i}><line x1={left} x2={width - right} y1={y(value)} y2={y(value)} stroke="#29404c" strokeDasharray="3 4"/><text x={left - 10} y={y(value) + 4} textAnchor="end" className="axis">{axis(value)}</text></g>; })}
+      {[0, 1, 2, 3].map(i => { const value = low + (high - low) * i / 3; return <g key={i}><line x1={left} x2={width - right} y1={y(value)} y2={y(value)} stroke="var(--radar-grid)" strokeDasharray="3 4"/><text x={left - 10} y={y(value) + 4} textAnchor="end" className="axis">{axis(value)}</text></g>; })}
       {segments.map((segment, i) => <g key={i}><path d={`${line(segment)} L${x(segment.at(-1)!.date)},${bottom} L${x(segment[0].date)},${bottom} Z`} fill={`url(#${id})`}/><path d={line(segment)} fill="none" stroke={color} strokeWidth="2.3" strokeLinejoin="round"/></g>)}
-      {future.length > 0 && <><polygon points={band} fill="#76d2b7" fillOpacity=".18"/><path d={forecastLine} fill="none" stroke="#76d2b7" strokeWidth="2" strokeDasharray="5 4"/><line x1={x(points.at(-1)!.date)} x2={x(points.at(-1)!.date)} y1={top} y2={bottom} stroke="#76d2b7" strokeOpacity=".5" strokeDasharray="3 4"/></>}
+      {future.length > 0 && <><polygon points={band} fill="var(--teal)" fillOpacity=".18"/><path d={forecastLine} fill="none" stroke="var(--teal)" strokeWidth="2" strokeDasharray="5 4"/><line x1={x(points.at(-1)!.date)} x2={x(points.at(-1)!.date)} y1={top} y2={bottom} stroke="var(--teal)" strokeOpacity=".5" strokeDasharray="3 4"/></>}
       {[points[0].date, points[Math.floor(points.length / 2)].date, lastDate].map((date, i) => <text key={i} x={x(date)} y={height - 8} textAnchor={i === 0 ? 'start' : i === 2 ? 'end' : 'middle'} className="axis">{annual ? date.slice(0, 4) : period(date)}</text>)}
       {selected && <><line x1={x(selected.date)} x2={x(selected.date)} y1={top} y2={bottom} stroke="#dce7ed" strokeOpacity=".45"/><circle cx={x(selected.date)} cy={y(selected.value)} r="4" fill={color} stroke="#10232d" strokeWidth="2"/></>}
     </svg>
