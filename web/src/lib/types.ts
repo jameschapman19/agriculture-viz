@@ -9,4 +9,4 @@ export type Commodity = { name: string; production_basis: string; benchmark_name
 export type Manifest = { schema_version: number; vintage: string; generated_at: string; countries: Record<string, Country>; commodities: Record<Crop, Commodity>; releases: Record<string, Release>; flags: Record<string, string>; coverage_definition: string; world_share_definition: string; change_definition: string };
 export type Forecast = import('./radarForecast').ForecastExport;
 export type SatelliteObservation = { region: string; windowStart: string; ndvi: number; validFraction: number; nObservations: number };
-export type SatelliteExport = { schemaVersion: 1; status: 'experimental'; source: string; vintage: string; generatedAt: string; windowDays: number; cropMask: string | null; regions: { id: string; name: string }[]; observations: SatelliteObservation[] };
+export type SatelliteExport = { schemaVersion: 1; status: 'experimental'; source: string; vintage: string; generatedAt: string; windowDays: number; cropMask: string | null; regions: { id: string; name: string; geometry?: import('geojson').Geometry }[]; observations: SatelliteObservation[] };

@@ -1,8 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { Pause, Play } from 'lucide-react';
 import Link from 'next/link';
 import { ChevronDown, Database, Satellite } from 'lucide-react';
-import { bySeason, dayOfYear, segments } from '@/lib/satellite';
+import { bySeason, dayOfYear, segments, windowKeys } from '@/lib/satellite';
+import SatelliteMap, { type Mode } from './SatelliteMap';
 import { number, releaseDate } from '@/lib/data';
 import type { SatelliteExport } from '@/lib/types';
 
@@ -13,13 +15,27 @@ export default function SatelliteView() {
   const [data, setData] = useState<SatelliteExport | null | 'missing'>(null);
   const [region, setRegion] = useState('');
   const [hover, setHover] = useState<{ season: number; index: number } | null>(null);
+  const [mode, setMode] = useState<Mode>('ndvi');
+  const [season, setSeason] = useState<number | null>(null);
+  const [step, setStep] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const stepCount = data && data !== 'missing' ? windowKeys(data).length : 0;
   useEffect(() => {
-    fetch('/data/satellite.json').then(r => (r.ok ? r.json() : 'missing')).then((d: SatelliteExport | 'missing') => { setData(d); if (d !== 'missing') setRegion(d.regions[0].id); }).catch(() => setData('missing'));
+    if (!playing || !stepCount) return;
+    const timer = setInterval(() => setStep(s => (s + 1) % stepCount), 700);
+    return () => clearInterval(timer);
+  }, [playing, stepCount]);
+  useEffect(() => {
+    fetch('/data/satellite.json').then(r => (r.ok ? r.json() : 'missing')).then((d: SatelliteExport | 'missing') => { setData(d); if (d !== 'missing') { setRegion(d.regions[0].id); setSeason(Math.max(...d.observations.map(o => Number(o.windowStart.slice(0, 4))))); } }).catch(() => setData('missing'));
   }, []);
   const header = <header className="site-header"><Link href="/" className="brand"><span className="brand-mark" aria-hidden="true"/><span>Agriculture <strong>Radar</strong></span></Link><nav aria-label="Main navigation"><Link href="/">Explore</Link><Link href="/satellite/" className="active">Satellite</Link><Link href="/methodology/">Methodology</Link></nav><span className="header-note">Sentinel-2 · experimental</span></header>;
   if (data === null) return <>{header}<main className="state-page" aria-busy="true"><Satellite size={32}/><h1>Loading satellite observations</h1></main></>;
   if (data === 'missing') return <>{header}<main className="state-page"><Satellite size={32}/><h1>No satellite data published yet</h1><p>Sentinel-2 vegetation summaries appear here once a validated extraction has been published. Nothing is shown in the meantime rather than placeholder values.</p></main></>;
 
+  const keys = windowKeys(data);
+  const allYears = [...new Set(data.observations.map(o => Number(o.windowStart.slice(0, 4))))].sort((a, b) => b - a);
+  const mapSeason = season ?? allYears[0];
+  const hasMap = data.regions.some(r => r.geometry);
   const seasons = bySeason(data, region);
   const years = [...seasons.keys()].sort((a, b) => a - b);
   const current = years.at(-1)!;
@@ -38,6 +54,17 @@ export default function SatelliteView() {
   return <>{header}<main className="dashboard satellite">
     <div className="explorer-heading"><div><span className="eyebrow">Satellite observations · experimental</span><h1>Vegetation through the season</h1></div>
       <div className="select-wrap sat-select"><select aria-label="Region" value={region} onChange={e => { setRegion(e.target.value); setHover(null); }}>{data.regions.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}</select><ChevronDown size={14}/></div></div>
+    {hasMap && <section className="map-card sat-card" aria-label="Regional NDVI map">
+      <div className="section-heading"><div><span className="eyebrow">{mapSeason} · window starting {releaseDate(`${mapSeason}-${keys[step]}`)}</span><h2>{mode === 'ndvi' ? 'Vegetation by region' : 'Where vegetation is ahead of or behind normal'}</h2></div></div>
+      <div className="sat-controls">
+        <div className="crop-tabs" aria-label="Map mode">{(['ndvi', 'anomaly'] as const).map(m => <button key={m} className={mode === m ? 'crop-tab selected' : 'crop-tab'} aria-pressed={mode === m} onClick={() => setMode(m)}>{m === 'ndvi' ? 'NDVI' : 'Anomaly'}</button>)}</div>
+        <div className="select-wrap"><select aria-label="Season" value={mapSeason} onChange={e => setSeason(Number(e.target.value))}>{allYears.map(y => <option key={y} value={y}>{y}</option>)}</select><ChevronDown size={14}/></div>
+        <button className="button" onClick={() => setPlaying(p => !p)} aria-label={playing ? 'Pause' : 'Play through the season'}>{playing ? <Pause size={16}/> : <Play size={16}/>}</button>
+        <input type="range" className="sat-slider" min={0} max={keys.length - 1} value={step} aria-label="Window of the season" onChange={e => { setPlaying(false); setStep(Number(e.target.value)); }}/>
+      </div>
+      <SatelliteMap data={data} season={mapSeason} windowKey={keys[step]} mode={mode} selected={region} onSelect={id => { setRegion(id); setHover(null); }}/>
+      <div className="coverage-note"><span>{mode === 'anomaly' ? 'Compared with the mean of the same window in earlier seasons; needs at least two. ' : ''}Grey regions have no sufficiently clear scene in this window. Click a region to inspect it below.</span></div>
+    </section>}
     <section className="map-card sat-card" aria-label="NDVI by season">
       <div className="section-heading"><div><span className="eyebrow">{name} · {current} vs earlier seasons</span><h2>NDVI by {data.windowDays}-day window</h2></div></div>
       <div className="map-stats"><div><span>Latest window</span><strong>{releaseDate(latest.windowStart)}</strong></div><div><span>Latest NDVI</span><strong>{number(latest.ndvi, 2)}</strong></div><div><span>Clear pixels in latest window</span><strong>{number(latest.validFraction * 100, 0)}%</strong></div></div>
