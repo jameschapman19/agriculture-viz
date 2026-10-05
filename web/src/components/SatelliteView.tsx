@@ -11,6 +11,7 @@ import { number, releaseDate } from '@/lib/data';
 import type { SatelliteExport } from '@/lib/types';
 
 const WIDTH = 760, HEIGHT = 300, LEFT = 44, RIGHT = 16, TOP = 14, BOTTOM = 262;
+const STALE_DAYS = 7;
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 export default function SatelliteView({ scope }: { scope: 'regional' | 'global' }) {
@@ -22,6 +23,7 @@ export default function SatelliteView({ scope }: { scope: 'regional' | 'global' 
   const [season, setSeason] = useState<number | null>(null);
   const [step, setStep] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [now] = useState(() => Date.now());
   const stepCount = data && data !== 'missing' ? windowKeys(data).length : 0;
   useEffect(() => {
     if (!playing || !stepCount) return;
@@ -29,7 +31,7 @@ export default function SatelliteView({ scope }: { scope: 'regional' | 'global' 
     return () => clearInterval(timer);
   }, [playing, stepCount]);
   useEffect(() => {
-    fetch(scope === 'global' ? '/data/satellite-global.json' : '/data/satellite.json').then(r => (r.ok ? r.json() : 'missing')).then((d: SatelliteExport | 'missing') => { setData(d); if (d !== 'missing') { setRegion((d.regions.find(r => d.observations.some(o => o.region === r.id)) ?? d.regions[0]).id); setSeason(Math.max(...d.observations.map(o => Number(o.windowStart.slice(0, 4))))); } }).catch(() => setData('missing'));
+    fetch(scope === 'global' ? '/api/satellite-global' : '/data/satellite.json').then(r => (r.ok ? r.json() : 'missing')).then((d: SatelliteExport | 'missing') => { setData(d); if (d !== 'missing') { setRegion((d.regions.find(r => d.observations.some(o => o.region === r.id)) ?? d.regions[0]).id); setSeason(Math.max(...d.observations.map(o => Number(o.windowStart.slice(0, 4))))); } }).catch(() => setData('missing'));
   }, [scope]);
   useEffect(() => {
     if (scope === 'global') fetch('/data/geography.geojson').then(r => r.json()).then(setGeography).catch(() => setGeography(null));
@@ -50,6 +52,10 @@ export default function SatelliteView({ scope }: { scope: 'regional' | 'global' 
   const normal = years.length > 4 ? envelope(seasons, current) : null;
   const ranked = world ? anomalies(data, mapSeason, keys[step]) : [];
   const claims = world ? makeHeadlines(data) : [];
+  const asOf = data.dataAsOf ?? null;
+  const ageDays = asOf ? Math.floor((now - Date.parse(asOf)) / 86400000) : null;
+  const stale = ageDays != null && ageDays > STALE_DAYS;
+  const mapProvisional = data.observations.some(o => o.provisional && o.windowStart === `${mapSeason}-${keys[step]}`);
   const all = data.observations.filter(o => o.region === region);
   const start = Math.min(...all.map(o => dayOfYear(o.windowStart))), end = Math.max(...all.map(o => dayOfYear(o.windowStart))) + data.windowDays;
   const x = (day: number) => LEFT + (day - start) / (end - start) * (WIDTH - LEFT - RIGHT);
@@ -65,13 +71,14 @@ export default function SatelliteView({ scope }: { scope: 'regional' | 'global' 
   return <>{header}<main className="dashboard satellite">
     <div className="explorer-heading"><div><span className="eyebrow">Satellite observations · experimental</span><h1>{world ? 'Vegetation worldwide' : 'Vegetation through the season'}</h1><div className="crop-tabs sat-scope" aria-label="Scope"><Link href="/satellite/" className={world ? 'crop-tab' : 'crop-tab selected'}>Regional pilot</Link><Link href="/satellite/global/" className={world ? 'crop-tab selected' : 'crop-tab'}>Global</Link></div></div>
       <div className="select-wrap sat-select"><select aria-label={noun} value={region} onChange={e => { setRegion(e.target.value); setHover(null); }}>{[...data.regions].sort((a, b) => a.name.localeCompare(b.name)).map(r => <option key={r.id} value={r.id}>{r.name}</option>)}</select><ChevronDown size={14}/></div></div>
+    {asOf && <div className={stale ? 'notice sat-fresh stale' : 'sat-fresh'} role={stale ? 'status' : undefined}>Data as of {releaseDate(asOf)}{ageDays != null ? ` (${ageDays} day${ageDays === 1 ? '' : 's'} ago)` : ''}. {stale ? 'Updates have paused, so these values may be out of date. ' : ''}The newest window is provisional until it completes and reads slightly low, because it is built from fewer days.</div>}
     {claims.length > 0 && <section className="map-card sat-card" aria-label="Headlines">
       <div className="section-heading"><div><span className="eyebrow">Latest window · records only</span><h2>What stands out</h2></div></div>
       <ul className="sat-headlines">{claims.slice(0, 5).map(h => <li key={h.id}><Link href={`/satellite/insight/${h.id}/`}>{h.text}</Link><span>{h.anomaly > 0 ? '+' : ''}{number(h.anomaly, 2)} NDVI vs normal</span></li>)}</ul>
       <div className="coverage-note"><span>A headline appears only when a country beats every earlier season for the same window by a clear margin, with enough clear observations. It describes cropland vegetation, not yield.</span></div>
     </section>}
     {hasMap && <section className="map-card sat-card" aria-label={`${world ? 'Global' : 'Regional'} NDVI map`}>
-      <div className="section-heading"><div><span className="eyebrow">{mapSeason} · window starting {releaseDate(`${mapSeason}-${keys[step]}`)}</span><h2>{mode === 'ndvi' ? `Vegetation by ${noun}` : 'Where vegetation is ahead of or behind normal'}</h2></div></div>
+      <div className="section-heading"><div><span className="eyebrow">{mapSeason} · window starting {releaseDate(`${mapSeason}-${keys[step]}`)}{mapProvisional ? ' · provisional' : ''}</span><h2>{mode === 'ndvi' ? `Vegetation by ${noun}` : 'Where vegetation is ahead of or behind normal'}</h2></div></div>
       <div className="sat-controls">
         <div className="crop-tabs" aria-label="Map mode">{(['ndvi', 'anomaly'] as const).map(m => <button key={m} className={mode === m ? 'crop-tab selected' : 'crop-tab'} aria-pressed={mode === m} onClick={() => setMode(m)}>{m === 'ndvi' ? 'NDVI' : 'Anomaly'}</button>)}</div>
         <div className="select-wrap"><select aria-label="Season" value={mapSeason} onChange={e => setSeason(Number(e.target.value))}>{allYears.map(y => <option key={y} value={y}>{y}</option>)}</select><ChevronDown size={14}/></div>
@@ -97,7 +104,7 @@ export default function SatelliteView({ scope }: { scope: 'regional' | 'global' 
         {years.flatMap(year => seasons.get(year)!.map((o, index) => <circle key={`${year}-${o.windowStart}`} cx={x(dayOfYear(o.windowStart) + data.windowDays / 2)} cy={y(o.ndvi)} r={year === current ? 4 : 7} fill={year === current ? 'var(--teal)' : 'transparent'} fillOpacity={year === current ? 1 : 0} onPointerEnter={() => setHover({ season: year, index })}/>))}
         {shown && <circle cx={x(dayOfYear(shown.windowStart) + data.windowDays / 2)} cy={y(shown.ndvi)} r="5" fill="none" stroke="#dce7ed" strokeWidth="2"/>}
       </svg>
-      <div className="chart-reading" aria-live="polite">{shown ? <>{hover!.season} · {releaseDate(shown.windowStart)} <strong>NDVI {number(shown.ndvi, 2)}</strong> · {number(shown.validFraction * 100, 0)}% clear · {shown.nObservations} scene{shown.nObservations === 1 ? '' : 's'}</> : <span><span className="sat-key"><i className="current"/>{current}</span><span className="sat-key"><i/>{normal ? `range of ${years.length - 1} earlier seasons (dashed: mean)` : 'earlier seasons'}</span> Gaps are windows without a sufficiently clear scene, not low vegetation.</span>}</div>
+      <div className="chart-reading" aria-live="polite">{shown ? <>{hover!.season} · {releaseDate(shown.windowStart)} <strong>NDVI {number(shown.ndvi, 2)}</strong>{shown.provisional ? ' (provisional)' : ''} · {number(shown.validFraction * 100, 0)}% clear · {shown.nObservations} scene{shown.nObservations === 1 ? '' : 's'}</> : <span><span className="sat-key"><i className="current"/>{current}</span><span className="sat-key"><i/>{normal ? `range of ${years.length - 1} earlier seasons (dashed: mean)` : 'earlier seasons'}</span> Gaps are windows without a sufficiently clear scene, not low vegetation.</span>}</div>
     </section>
     <section className="map-card sat-card" aria-label="Observation coverage">
       <div className="section-heading"><div><span className="eyebrow">{name} · coverage</span><h2>How much of each window was observed</h2></div></div>

@@ -22,7 +22,7 @@ export function segments(rows: SatelliteObservation[], windowDays: number) {
 }
 /** Mean NDVI for the same window of the year in seasons before `season`; needs at least two. */
 export function baseline(data: SatelliteExport, region: string, key: string, season: number): number | null {
-  const prior = data.observations.filter(o => o.region === region && o.windowStart.slice(5) === key && Number(o.windowStart.slice(0, 4)) < season);
+  const prior = data.observations.filter(o => !o.provisional && o.region === region && o.windowStart.slice(5) === key && Number(o.windowStart.slice(0, 4)) < season);
   return prior.length >= 2 ? prior.reduce((sum, o) => sum + o.ndvi, 0) / prior.length : null;
 }
 export const windowKeys = (data: SatelliteExport) => [...new Set(data.observations.map(o => o.windowStart.slice(5)))].sort();
@@ -47,6 +47,6 @@ export function anomalies(data: SatelliteExport, season: number, key: string) {
   return data.regions.flatMap(r => {
     const o = data.observations.find(x => x.region === r.id && x.windowStart === `${season}-${key}`);
     const base = baseline(data, r.id, key, season);
-    return o && base != null ? [{ id: r.id, name: r.name, anomaly: o.ndvi - base, ndvi: o.ndvi }] : [];
+    return o && !o.provisional && base != null ? [{ id: r.id, name: r.name, anomaly: o.ndvi - base, ndvi: o.ndvi }] : [];
   }).sort((a, b) => b.anomaly - a.anomaly);
 }

@@ -6,10 +6,11 @@ import { number } from '@/lib/data';
 export const alt = 'Satellite vegetation insight';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
-export const dynamicParams = false;
+export const dynamicParams = true;
+export const revalidate = 900;
+// Pages are rendered on demand and cached, so a new headline gets its page without a deploy.
 export async function generateStaticParams() {
-  const data = await loadGlobal();
-  return data ? headlines(data).map(h => ({ id: h.id })) : [{ id: '_' }];
+  return [];
 }
 
 export default async function Image({ params }: { params: Promise<{ id: string }> }) {

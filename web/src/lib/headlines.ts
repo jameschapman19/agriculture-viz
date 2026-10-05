@@ -20,7 +20,8 @@ export function windowLabel(windowStart: string, windowDays: number) {
  */
 export function headlines(data: SatelliteExport, rules: Rules = DEFAULT_RULES): Headline[] {
   if (rules.requireCropMask && !data.cropMask) return [];
-  const clear = data.observations.filter(o => o.validFraction >= rules.minValidFraction);
+  // Provisional windows are built from fewer days, so their composites read low; claims need complete ones.
+  const clear = data.observations.filter(o => !o.provisional && o.validFraction >= rules.minValidFraction);
   const counts = new Map<string, number>();
   for (const o of clear) counts.set(o.windowStart, (counts.get(o.windowStart) ?? 0) + 1);
   const latest = [...counts].filter(([, n]) => n >= rules.minRegions).map(([w]) => w).sort().at(-1);
