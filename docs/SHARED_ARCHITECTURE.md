@@ -44,4 +44,4 @@ Both Vercel projects use native Next.js deployment from public visualization rep
 
 ## Satellite extension
 
-See [SATELLITE_ROADMAP.md](SATELLITE_ROADMAP.md). Satellite processing will be an upstream feature/label capability, not a browser or Vercel build task. The current app publishes benchmark-price forecasts only.
+See [SATELLITE_ROADMAP.md](SATELLITE_ROADMAP.md) and the researched [satellite phase plan](SATELLITE_PHASE_PLAN.md). Satellite processing will be an upstream feature/label capability, not a browser or Vercel build task. The current app publishes benchmark-price forecasts only.

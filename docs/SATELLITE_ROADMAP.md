@@ -1,6 +1,6 @@
 # Satellite crop and yield extension
 
-The first pilot should cover one crop and one region with usable historical labels, for example UK wheat if regional yield and crop-label coverage are sufficient. Expand after spatial and season-held-out evaluation, rather than applying a global model without local validation.
+The first pilot should cover one crop and one region with usable historical labels. The researched [satellite phase plan](SATELLITE_PHASE_PLAN.md) proposes Illinois maize at county level, subject to a data audit, with England wheat as a follow-on adapter. Expand after spatial and season-held-out evaluation.
 
 ## Two distinct capabilities
 
