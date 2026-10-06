@@ -5,11 +5,11 @@ import { headlines } from '@/lib/headlines';
 import { loadGlobal } from '@/lib/satelliteServer';
 import { number, releaseDate } from '@/lib/data';
 
-export const dynamicParams = false;
+export const dynamicParams = true;
+export const revalidate = 900;
+// Pages are rendered on demand and cached, so a new headline gets its page without a deploy.
 export async function generateStaticParams() {
-  const data = await loadGlobal();
-  // The framework requires at least one param for a static route, so with no published data this builds one placeholder page that 404s.
-  return data ? headlines(data).map(h => ({ id: h.id })) : [{ id: '_' }];
+  return [];
 }
 async function find(id: string) {
   const data = await loadGlobal();

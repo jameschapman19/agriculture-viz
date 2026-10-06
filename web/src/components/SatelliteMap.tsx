@@ -30,11 +30,12 @@ export default function SatelliteMap({ data, geography, season, windowKey, mode,
     const o = data.observations.find(x => x.region === id && x.windowStart === `${season}-${windowKey}`);
     if (!o) return null;
     if (mode === 'ndvi') return o.ndvi;
+    if (o.provisional) return null; // built from fewer days, so it reads low against complete windows
     const base = baseline(data, id, windowKey, season);
     return base == null ? null : o.ndvi - base;
   };
   const fill = (id: string) => { const v = value(id); if (v == null) return NONE; const i = scale.thresholds.findIndex(t => v < t); return scale.colors[i === -1 ? 4 : i]; };
-  const text = (id: string) => { const v = value(id); return v == null ? (mode === 'anomaly' ? 'No clear scene, or fewer than two earlier seasons' : 'No clear scene in this window') : mode === 'ndvi' ? `NDVI ${number(v, 2)}` : `${v > 0 ? '+' : ''}${number(v, 2)} vs earlier seasons`; };
+  const text = (id: string) => { const v = value(id); return v == null ? (mode === 'anomaly' ? 'No anomaly yet: the window is provisional, has no clear scene, or has fewer than two earlier seasons' : 'No clear scene in this window') : mode === 'ndvi' ? `NDVI ${number(v, 2)}` : `${v > 0 ? '+' : ''}${number(v, 2)} vs earlier seasons`; };
   const hovered = hover ? shapes.find(s => s.id === hover.id) : null;
   return <div className="map-surface">
     <svg viewBox={world ? '0 0 1000 510' : '0 0 600 460'} className="sat-map" role="group" aria-label={`${mode === 'ndvi' ? 'NDVI' : 'NDVI anomaly'} by region, window starting ${season}-${windowKey}`} onPointerLeave={() => setHover(null)}>

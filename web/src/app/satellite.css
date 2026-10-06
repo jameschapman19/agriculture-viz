@@ -20,3 +20,5 @@
 .sat-headlines a { font-weight: 600; }
 .sat-headlines span { color: var(--muted); }
 .insight-figures { margin: 12px 0; color: var(--muted); }
+.sat-fresh { color: var(--muted); font-size: .9rem; margin: 14px 0 0; }
+.sat-fresh.stale { color: var(--text); }

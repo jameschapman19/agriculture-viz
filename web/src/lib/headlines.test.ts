@@ -51,3 +51,9 @@ test('labels windows', () => {
   assert.equal(windowLabel('2025-06-01', 30), 'June');
   assert.equal(windowLabel('2025-06-15', 10), 'mid June');
 });
+
+test('provisional windows never produce headlines', () => {
+  const d = data(many(12, ['x', 0.8]), history(['x']));
+  d.observations = d.observations.map(o => (o.windowStart === '2025-06-01' ? { ...o, provisional: true } : o));
+  assert.deepEqual(headlines(d, rules), []);
+});
