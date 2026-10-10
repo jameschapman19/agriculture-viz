@@ -116,4 +116,6 @@ Code: MIT, see `LICENSE`. Data rights remain with the providers and are recorded
 
 ## Shared Radar foundations
 
-The sister projects share pinned `radar-contracts` releases and brand assets; both private forecast projects use the same Nixtla `radar-forecast` package. Domain adapters preserve their own targets, transforms and hierarchy rules. See the [shared architecture](https://github.com/jameschapman19/agriculture-viz/blob/main/docs/SHARED_ARCHITECTURE.md) and [satellite extension roadmap](https://github.com/jameschapman19/agriculture-viz/blob/main/docs/SATELLITE_ROADMAP.md).
+The sister projects share pinned `radar-contracts` releases and brand assets; both private forecast projects use the same Nixtla `radar-forecast` package. Domain adapters preserve their own targets, transforms and hierarchy rules. See the [shared architecture](docs/SHARED_ARCHITECTURE.md), [satellite extension roadmap](docs/SATELLITE_ROADMAP.md), and [satellite phase plan](docs/SATELLITE_PHASE_PLAN.md). The [public Crop Explorer pre-step](docs/CROP_EXPLORER_PRESTEP.md) comes first: zoomable imagery and annual public crop maps, followed by optional classification research and an audited Illinois maize yield pilot using shared seasonal Nixtla contracts.
+
+The [computer vision reuse research](docs/COMPUTER_VISION_REUSE.md) recommends existing crop encoders and field-instance models, with transferable patterns from solar-panel mapping. It includes a pinned source/artifact ledger, licence checks and bounded experiments; no learned crop or satellite yield model is deployed yet.
